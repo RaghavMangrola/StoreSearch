@@ -12,15 +12,74 @@
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="Sear">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Cub-zF-sqI">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="vUX-jk-eVL">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vUX-jk-eVL" id="Zdg-yW-g3y">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="suG-G5-AJy">
+                                        <rect key="frame" x="0.0" y="72" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="suG-G5-AJy" id="QOJ-g8-3EY">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ggT-9B-SSV">
+                                        <rect key="frame" x="0.0" y="116" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ggT-9B-SSV" id="tSk-0o-tIg">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
+                            </tableView>
+                            <searchBar contentMode="redraw" placeholder="App name, artist, song, ablum, e-book" translatesAutoresizingMaskIntoConstraints="NO" id="wu9-ig-HaZ">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <animations/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wu9-ig-HaZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="2tj-2Q-Drq"/>
+                            <constraint firstAttribute="trailing" secondItem="wu9-ig-HaZ" secondAttribute="trailing" id="49L-AZ-Sdv"/>
+                            <constraint firstItem="Cub-zF-sqI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="63j-Yc-6CQ"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Cub-zF-sqI" secondAttribute="bottom" id="E0g-tI-qI4"/>
+                            <constraint firstItem="Cub-zF-sqI" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="SEq-LT-iPf"/>
+                            <constraint firstAttribute="trailing" secondItem="Cub-zF-sqI" secondAttribute="trailing" id="Xaq-cf-tPe"/>
+                            <constraint firstItem="wu9-ig-HaZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cSi-AN-e5o"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="searchBar" destination="wu9-ig-HaZ" id="VgX-xF-cJS"/>
+                        <outlet property="tableView" destination="Cub-zF-sqI" id="syi-Xw-PJa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="291" y="395"/>
         </scene>
     </scenes>
 </document>
