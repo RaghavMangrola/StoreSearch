@@ -15,6 +15,7 @@
 		A0F47C011BF02FFD0012705B /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F47C001BF02FFD0012705B /* SearchResult.swift */; };
 		A0F47C031BF1639E0012705B /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0F47C021BF1639E0012705B /* SearchResultCell.xib */; };
 		A0F47C051BF1967A0012705B /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F47C041BF1967A0012705B /* SearchResultCell.swift */; };
+		A0F47C071BF19BEB0012705B /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0F47C061BF19BEB0012705B /* NothingFoundCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		A0F47C001BF02FFD0012705B /* SearchResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		A0F47C021BF1639E0012705B /* SearchResultCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
 		A0F47C041BF1967A0012705B /* SearchResultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		A0F47C061BF19BEB0012705B /* NothingFoundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NothingFoundCell.xib; path = ../NothingFoundCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				A085290B1BCE048800956E4D /* Main.storyboard */,
 				A08529101BCE048800956E4D /* LaunchScreen.storyboard */,
 				A0F47C021BF1639E0012705B /* SearchResultCell.xib */,
+				A0F47C061BF19BEB0012705B /* NothingFoundCell.xib */,
 				A08529131BCE048800956E4D /* Info.plist */,
 			);
 			path = StoreSearch;
@@ -133,6 +136,7 @@
 				A08529121BCE048800956E4D /* LaunchScreen.storyboard in Resources */,
 				A085290F1BCE048800956E4D /* Assets.xcassets in Resources */,
 				A0F47C031BF1639E0012705B /* SearchResultCell.xib in Resources */,
+				A0F47C071BF19BEB0012705B /* NothingFoundCell.xib in Resources */,
 				A085290D1BCE048800956E4D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
