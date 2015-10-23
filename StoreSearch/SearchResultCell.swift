@@ -17,6 +17,9 @@ class SearchResultCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+      let selectedView = UIView(frame: CGRect.zero)
+      selectedView.backgroundColor = UIColor(red: 20/255, green: 160/255, blue: 160/355, alpha: 0.5)
+      selectedBackgroundView = selectedView
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -24,5 +27,4 @@ class SearchResultCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }
