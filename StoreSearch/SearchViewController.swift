@@ -37,23 +37,39 @@ class SearchViewController: UIViewController {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
+  
+  func urlWithSearchText(searchText: String) -> NSURL {
+    let escapedSearchText = searchText.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+    let urlString = String(format: "https://itunes.apple.com/search?term=%@", escapedSearchText)
+    let url = NSURL(string: urlString)
+    return url!
+  }
+  
+  func performStoreRequestWithURL(url: NSURL) -> String? {
+    do {
+      return try String(contentsOfURL: url, encoding: NSUTF8StringEncoding)
+    } catch {
+      print("Download Error: \(error)", separator: "", terminator: "\n")
+      return nil
+    }
+  }
 }
 
 extension SearchViewController: UISearchBarDelegate {
   func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-    searchBar.resignFirstResponder()
-    searchResults = [SearchResult]()
-    
-    if searchBar.text! != "justin bieber" {
-      for i in 0...2 {
-        let searchResult = SearchResult()
-        searchResult.name = String(format: "Fake Result %d for", i)
-        searchResult.artistName = searchBar.text!
-        searchResults.append(searchResult)
+    if !searchBar.text!.isEmpty {
+      searchBar.resignFirstResponder()
+      
+      hasSearched = true
+      searchResults = [SearchResult]()
+      
+      let url = urlWithSearchText(searchBar.text!)
+      print("URL: '\(url)'", separator: "", terminator: "\n")
+      
+      if let jsonString = performStoreRequestWithURL(url) {
+        print("Received JSON String '\(jsonString)'", separator: "", terminator: "\n")
       }
     }
-    hasSearched = true
-    tableView.reloadData()
   }
   
   func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
