@@ -53,6 +53,15 @@ class SearchViewController: UIViewController {
       return nil
     }
   }
+  
+  func showNetworkError() {
+    let alert = UIAlertController(title: "Whoops...", message: "There was an error reading from the iTunes Store. Please try again.", preferredStyle: .Alert)
+    
+    let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+    alert.addAction(action)
+    
+    presentViewController(alert, animated: true, completion: nil)
+  }
 }
 
 extension SearchViewController: UISearchBarDelegate {
@@ -68,12 +77,31 @@ extension SearchViewController: UISearchBarDelegate {
       
       if let jsonString = performStoreRequestWithURL(url) {
         print("Received JSON String '\(jsonString)'", separator: "", terminator: "\n")
+        if let dictionary = parseJSON(jsonString) {
+          print("Dictionary \(dictionary)", separator: "", terminator: "\n")
+          
+          tableView.reloadData()
+          return
+        }
       }
+      showNetworkError()
     }
   }
   
   func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
     return .TopAttached
+  }
+  
+  func parseJSON(jsonString: String) -> [String: AnyObject]? {
+    guard let data = jsonString.dataUsingEncoding(NSUTF8StringEncoding)
+      else { return nil }
+    
+    do {
+      return try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject]
+    } catch {
+      print("JSON Error: \(error)", separator: "", terminator: "")
+      return nil
+    }
   }
 }
 
