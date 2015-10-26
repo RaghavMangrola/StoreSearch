@@ -81,6 +81,7 @@ extension SearchViewController: UISearchBarDelegate {
           print("Dictionary \(dictionary)", separator: "", terminator: "\n")
           
           tableView.reloadData()
+          parseDictionary(dictionary)
           return
         }
       }
@@ -126,6 +127,21 @@ extension SearchViewController: UITableViewDataSource {
       cell.nameLabel.text = searchResult.name
       cell.artistNameLabel.text = searchResult.artistName
       return cell
+    }
+  }
+  
+  func parseDictionary(dictionary: [String: AnyObject]) {
+    guard let array = dictionary["results"] as? [AnyObject] else {
+      print("Expected 'results' array", separator: "", terminator: "\n")
+      return
+    }
+    
+    for resultDict in array {
+      if let resultDict = resultDict as? [String: AnyObject] {
+        if let wrapperType = resultDict["wrapperType"] as? String, let kind = resultDict["kind"] as? String {
+          print("wrapperType: \(wrapperType), kind \(kind)", separator: "", terminator: "\n")
+        }
+      }
     }
   }
 }
