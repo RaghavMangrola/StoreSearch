@@ -83,6 +83,7 @@ extension SearchViewController: UISearchBarDelegate {
           
           searchResults = parseDictionary(dictionary)
           print("searchResults items: \(searchResults.count)")
+          searchResults.sortInPlace(<)
           tableView.reloadData()
           return
         }
