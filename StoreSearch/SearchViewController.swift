@@ -79,23 +79,26 @@ extension SearchViewController: UISearchBarDelegate {
       hasSearched = true
       searchResults = [SearchResult]()
       
-      let url = urlWithSearchText(searchBar.text!)
-      print("URL: '\(url)'", separator: "", terminator: "\n")
+      let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
       
-      if let jsonString = performStoreRequestWithURL(url) {
-//        print("Received JSON String '\(jsonString)'", separator: "", terminator: "\n")
-        if let dictionary = parseJSON(jsonString) {
-//          print("Dictionary \(dictionary)", separator: "", terminator: "\n")
+      dispatch_async(queue) {
+        let url = self.urlWithSearchText(searchBar.text!)
+        
+        if let jsonString = self.performStoreRequestWithURL(url), let dictionary = self.parseJSON(jsonString) {
+          self.searchResults = self.parseDictionary(dictionary)
+          self.searchResults.sortInPlace(<)
           
-          searchResults = parseDictionary(dictionary)
-          print("searchResults items: \(searchResults.count)")
-          searchResults.sortInPlace(<)
-          isLoading = false
-          tableView.reloadData()
+          dispatch_async(dispatch_get_main_queue()) {
+            self.isLoading = false
+            self.tableView.reloadData()
+          }
           return
         }
+        
+        dispatch_async(dispatch_get_main_queue()) {
+          self.showNetworkError()
+        }
       }
-      showNetworkError()
     }
   }
   
