@@ -49,15 +49,6 @@ class SearchViewController: UIViewController {
     return url!
   }
   
-  func performStoreRequestWithURL(url: NSURL) -> String? {
-    do {
-      return try String(contentsOfURL: url, encoding: NSUTF8StringEncoding)
-    } catch {
-      print("Download Error: \(error)", separator: "", terminator: "\n")
-      return nil
-    }
-  }
-  
   func showNetworkError() {
     let alert = UIAlertController(title: "Whoops...", message: "There was an error reading from the iTunes Store. Please try again.", preferredStyle: .Alert)
     
@@ -69,6 +60,7 @@ class SearchViewController: UIViewController {
 }
 
 extension SearchViewController: UISearchBarDelegate {
+  
   func searchBarSearchButtonClicked(searchBar: UISearchBar) {
     if !searchBar.text!.isEmpty {
       searchBar.resignFirstResponder()
@@ -79,26 +71,39 @@ extension SearchViewController: UISearchBarDelegate {
       hasSearched = true
       searchResults = [SearchResult]()
       
-      let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+      let url = urlWithSearchText(searchBar.text!)
       
-      dispatch_async(queue) {
-        let url = self.urlWithSearchText(searchBar.text!)
+      let session = NSURLSession.sharedSession()
+      
+      let dataTask = session.dataTaskWithURL(url, completionHandler: {
+        data, response, error in
+        print("On the main thread? " + (NSThread.currentThread().isMainThread ? "Yes" : "No"))
         
-        if let jsonString = self.performStoreRequestWithURL(url), let dictionary = self.parseJSON(jsonString) {
-          self.searchResults = self.parseDictionary(dictionary)
-          self.searchResults.sortInPlace(<)
-          
-          dispatch_async(dispatch_get_main_queue()) {
-            self.isLoading = false
-            self.tableView.reloadData()
+        if let error = error {
+          print("Failure! \(error)")
+        } else if let httpResponse = response as? NSHTTPURLResponse where httpResponse.statusCode == 200 {
+          if let data = data, dictionary = self.parseJSON(data) {
+            self.searchResults = self.parseDictionary(dictionary)
+            self.searchResults.sortInPlace(<)
+            
+            dispatch_async(dispatch_get_main_queue()) {
+              self.isLoading = false
+              self.tableView.reloadData()
+            }
+            return
           }
-          return
+        } else {
+          print("Success! \(response!)")
         }
         
         dispatch_async(dispatch_get_main_queue()) {
+          self.hasSearched = false
+          self.isLoading = false
+          self.tableView.reloadData()
           self.showNetworkError()
         }
-      }
+      })
+      dataTask.resume()
     }
   }
   
@@ -106,9 +111,7 @@ extension SearchViewController: UISearchBarDelegate {
     return .TopAttached
   }
   
-  func parseJSON(jsonString: String) -> [String: AnyObject]? {
-    guard let data = jsonString.dataUsingEncoding(NSUTF8StringEncoding)
-      else { return nil }
+  func parseJSON(data: NSData) -> [String: AnyObject]? {
     
     do {
       return try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject]
