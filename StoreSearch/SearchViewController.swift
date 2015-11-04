@@ -13,9 +13,15 @@ class SearchViewController: UIViewController {
   var searchResults = [SearchResult]()
   var hasSearched = false
   var isLoading = false
+  var dataTask: NSURLSessionDataTask?
   
   @IBOutlet weak var searchBar: UISearchBar!
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var segmentedControl: UISegmentedControl!
+  
+  @IBAction func segmentChanged(sender: AnyObject) {
+    performSearch()
+  }
   
   struct TableViewCellIdentifiers {
     static let searchResultCell = "SearchResultCell"
@@ -32,7 +38,7 @@ class SearchViewController: UIViewController {
     tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.nothingFoundCell)
     cellNib = UINib(nibName: TableViewCellIdentifiers.loadingCell, bundle: nil)
     tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.loadingCell)
-    tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
+    tableView.contentInset = UIEdgeInsets(top: 108, left: 0, bottom: 0, right: 0)
     tableView.rowHeight = 80
     searchBar.becomeFirstResponder()
   }
@@ -42,20 +48,19 @@ class SearchViewController: UIViewController {
     // Dispose of any resources that can be recreated.
   }
   
-  func urlWithSearchText(searchText: String) -> NSURL {
+  func urlWithSearchText(searchText: String, category: Int) -> NSURL {
+    let entityName: String
+    switch category {
+      case 1: entityName = "musicTrack"
+      case 2: entityName = "software"
+      case 3: entityName = "ebook"
+      default: entityName = ""
+    }
+    
     let escapedSearchText = searchText.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
-    let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=200", escapedSearchText)
+    let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=200&entity=%@", escapedSearchText, entityName)
     let url = NSURL(string: urlString)
     return url!
-  }
-  
-  func performStoreRequestWithURL(url: NSURL) -> String? {
-    do {
-      return try String(contentsOfURL: url, encoding: NSUTF8StringEncoding)
-    } catch {
-      print("Download Error: \(error)", separator: "", terminator: "\n")
-      return nil
-    }
   }
   
   func showNetworkError() {
@@ -69,9 +74,16 @@ class SearchViewController: UIViewController {
 }
 
 extension SearchViewController: UISearchBarDelegate {
+  
   func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    performSearch()
+  }
+  
+  func performSearch() {
     if !searchBar.text!.isEmpty {
       searchBar.resignFirstResponder()
+      
+      dataTask?.cancel()
       
       isLoading = true
       tableView.reloadData()
@@ -79,26 +91,39 @@ extension SearchViewController: UISearchBarDelegate {
       hasSearched = true
       searchResults = [SearchResult]()
       
-      let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+      let url = urlWithSearchText(searchBar.text!, category: segmentedControl.selectedSegmentIndex)
       
-      dispatch_async(queue) {
-        let url = self.urlWithSearchText(searchBar.text!)
+      let session = NSURLSession.sharedSession()
+      
+      dataTask = session.dataTaskWithURL(url, completionHandler: {
+        data, response, error in
+        print("On the main thread? " + (NSThread.currentThread().isMainThread ? "Yes" : "No"))
         
-        if let jsonString = self.performStoreRequestWithURL(url), let dictionary = self.parseJSON(jsonString) {
-          self.searchResults = self.parseDictionary(dictionary)
-          self.searchResults.sortInPlace(<)
-          
-          dispatch_async(dispatch_get_main_queue()) {
-            self.isLoading = false
-            self.tableView.reloadData()
+        if let error = error where error.code == -999 {
+          return // Search was cancelled
+        } else if let httpResponse = response as? NSHTTPURLResponse where httpResponse.statusCode == 200 {
+          if let data = data, dictionary = self.parseJSON(data) {
+            self.searchResults = self.parseDictionary(dictionary)
+            self.searchResults.sortInPlace(<)
+            
+            dispatch_async(dispatch_get_main_queue()) {
+              self.isLoading = false
+              self.tableView.reloadData()
+            }
+            return
           }
-          return
+        } else {
+          print("Success! \(response!)")
         }
         
         dispatch_async(dispatch_get_main_queue()) {
+          self.hasSearched = false
+          self.isLoading = false
+          self.tableView.reloadData()
           self.showNetworkError()
         }
-      }
+      })
+      dataTask?.resume()
     }
   }
   
@@ -106,9 +131,7 @@ extension SearchViewController: UISearchBarDelegate {
     return .TopAttached
   }
   
-  func parseJSON(jsonString: String) -> [String: AnyObject]? {
-    guard let data = jsonString.dataUsingEncoding(NSUTF8StringEncoding)
-      else { return nil }
+  func parseJSON(data: NSData) -> [String: AnyObject]? {
     
     do {
       return try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject]
@@ -265,29 +288,8 @@ extension SearchViewController: UITableViewDataSource {
     } else {
       let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.searchResultCell, forIndexPath: indexPath) as! SearchResultCell
       let searchResult = searchResults[indexPath.row]
-      cell.nameLabel.text = searchResult.name
-      if searchResult.artistName.isEmpty {
-        cell.artistNameLabel.text = "Unkown"
-      } else {
-        cell.artistNameLabel.text = String(format: "%@ (%@)", searchResult.artistName, kindForDisplay(searchResult.kind))
-      }
+      cell.configureForSearchResult(searchResult)
       return cell
-    }
-  }
-  
-  func kindForDisplay(kind: String) -> String {
-    switch kind {
-      case "album": return "Album"
-      case "audiobook": return "Audio Book"
-      case "book": return "Book"
-      case "ebook": return "E-Book"
-      case "feature-movie": return "Movie"
-      case "music-video": return "Music Video"
-      case "podcast": return "Podcast"
-      case "software": return "App"
-      case "song": return "Song"
-      case "tv-episode": return "TV Episode"
-      default: return kind
     }
   }
 }
