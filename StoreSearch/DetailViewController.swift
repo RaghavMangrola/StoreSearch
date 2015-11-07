@@ -10,6 +10,14 @@ import UIKit
 
 class DetailViewController: UIViewController {
   
+  @IBOutlet weak var popupView: UIView!
+  @IBOutlet weak var artworkImageView: UIImageView!
+  @IBOutlet weak var nameLabel: UILabel!
+  @IBOutlet weak var artistNameLabel: UILabel!
+  @IBOutlet weak var kindLabel: UILabel!
+  @IBOutlet weak var genreLabel: UILabel!
+  @IBOutlet weak var priceButton: UIButton!
+  
   @IBAction func close() {
     dismissViewControllerAnimated(true, completion: nil)
   }
@@ -18,6 +26,15 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+      
+      let gestureRecognzier = UITapGestureRecognizer(target: self, action: Selector("close"))
+      
+      view.tintColor = UIColor(red: 20/255, green: 160/255, blue: 160/255, alpha: 1)
+      popupView.layer.cornerRadius = 10
+      
+      gestureRecognzier.cancelsTouchesInView = false
+      gestureRecognzier.delegate = self
+      view.addGestureRecognizer(gestureRecognzier)
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,5 +67,11 @@ extension DetailViewController: UIViewControllerTransitioningDelegate {
     return DimmingPresentationController(
                       presentedViewController: presented,
                       presentingViewController: presenting)
+  }
+}
+
+extension DetailViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+    return (touch.view === self.view)
   }
 }
