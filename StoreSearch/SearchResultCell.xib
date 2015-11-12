@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -22,31 +23,46 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="92u-5v-HvA">
-                        <rect key="frame" x="90" y="15" width="222" height="22"/>
+                        <rect key="frame" x="90" y="15" width="45" height="20"/>
                         <animations/>
-                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TVp-yB-Nga">
-                        <rect key="frame" x="90" y="44" width="222" height="18"/>
+                        <rect key="frame" x="90" y="44" width="63" height="14"/>
                         <animations/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <animations/>
                 <constraints>
+                    <constraint firstItem="92u-5v-HvA" firstAttribute="top" secondItem="ApS-SI-Cu0" secondAttribute="topMargin" constant="7" id="4Ka-mr-Exp"/>
                     <constraint firstItem="yg7-i7-KKp" firstAttribute="top" secondItem="ApS-SI-Cu0" secondAttribute="top" constant="10" id="9wu-HO-Lje"/>
+                    <constraint firstItem="TVp-yB-Nga" firstAttribute="leading" secondItem="yg7-i7-KKp" secondAttribute="trailing" constant="15" id="CCZ-xO-WKi"/>
                     <constraint firstItem="92u-5v-HvA" firstAttribute="leading" secondItem="yg7-i7-KKp" secondAttribute="trailing" constant="15" id="H0X-tF-p4G"/>
                     <constraint firstItem="yg7-i7-KKp" firstAttribute="leading" secondItem="ApS-SI-Cu0" secondAttribute="leading" constant="15" id="MJk-Gu-Occ"/>
                     <constraint firstAttribute="trailing" secondItem="92u-5v-HvA" secondAttribute="trailing" constant="8" id="Qo5-eb-nJC"/>
                     <constraint firstItem="TVp-yB-Nga" firstAttribute="leading" secondItem="yg7-i7-KKp" secondAttribute="trailing" constant="15" id="c9K-Ua-8lY"/>
+                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="TVp-yB-Nga" secondAttribute="trailing" constant="10" id="cbD-MG-uK6"/>
                     <constraint firstAttribute="trailing" secondItem="TVp-yB-Nga" secondAttribute="trailing" constant="8" id="cpw-WE-F6O"/>
-                    <constraint firstItem="92u-5v-HvA" firstAttribute="top" secondItem="ApS-SI-Cu0" secondAttribute="top" constant="15" id="he7-me-VyG"/>
+                    <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="TVp-yB-Nga" secondAttribute="bottom" constant="9" id="dfE-Vj-cXh"/>
+                    <constraint firstItem="92u-5v-HvA" firstAttribute="leading" secondItem="yg7-i7-KKp" secondAttribute="trailing" constant="15" id="gsW-2v-qrb"/>
+                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="92u-5v-HvA" secondAttribute="trailing" constant="10" id="p5N-QK-r3K"/>
+                    <constraint firstItem="TVp-yB-Nga" firstAttribute="top" secondItem="92u-5v-HvA" secondAttribute="bottom" constant="9" id="uPt-Ym-oQh"/>
                     <constraint firstAttribute="bottom" secondItem="TVp-yB-Nga" secondAttribute="bottom" constant="17" id="zPB-rf-kqB"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="H0X-tF-p4G"/>
+                        <exclude reference="Qo5-eb-nJC"/>
+                        <exclude reference="c9K-Ua-8lY"/>
+                        <exclude reference="cpw-WE-F6O"/>
+                        <exclude reference="zPB-rf-kqB"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <animations/>
             <connections>

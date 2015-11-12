@@ -14,6 +14,7 @@ class SearchViewController: UIViewController {
   var hasSearched = false
   var isLoading = false
   var dataTask: NSURLSessionDataTask?
+  var observer: AnyObject!
   
   @IBOutlet weak var searchBar: UISearchBar!
   @IBOutlet weak var tableView: UITableView!
@@ -41,6 +42,7 @@ class SearchViewController: UIViewController {
     tableView.contentInset = UIEdgeInsets(top: 108, left: 0, bottom: 0, right: 0)
     tableView.rowHeight = 80
     searchBar.becomeFirstResponder()
+//    listenForContentSizeCategoryNotifications()
   }
 
   override func didReceiveMemoryWarning() {
@@ -80,6 +82,17 @@ class SearchViewController: UIViewController {
     
     presentViewController(alert, animated: true, completion: nil)
   }
+  
+//  func listenForContentSizeCategoryNotifications() {
+//    observer = NSNotificationCenter.defaultCenter().addObserverForName(UIContentSizeCategoryDidChangeNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { _ in
+//    print("Is this working?")
+//    self.tableView.reloadData()
+//    })
+//  }
+//  
+//  deinit {
+//    NSNotificationCenter.defaultCenter().removeObserver(observer)
+//  }
 }
 
 extension SearchViewController: UISearchBarDelegate {

@@ -39,6 +39,9 @@ class SearchResultCell: UITableViewCell {
     nameLabel.text = nil
     artistNameLabel.text = nil
     artworkImageView.image = nil
+    
+    nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+    artistNameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
   }
   
   func configureForSearchResult(searchResult: SearchResult) {
