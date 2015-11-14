@@ -98,6 +98,10 @@ class DetailViewController: UIViewController {
     print("deinit \(self)")
     downloadTask?.cancel()
   }
+  
+  func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    return BounceAnimationController()
+  }
 }
 
 extension DetailViewController: UIViewControllerTransitioningDelegate {
@@ -106,6 +110,10 @@ extension DetailViewController: UIViewControllerTransitioningDelegate {
     return DimmingPresentationController(
       presentedViewController: presented,
       presentingViewController: presenting)
+  }
+  
+  func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    return SlideOutAnimationController()
   }
 }
 

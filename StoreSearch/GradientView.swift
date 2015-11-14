@@ -2,7 +2,7 @@
 //  GradientView.swift
 //  StoreSearch
 //
-//  Created by Raghav Mangrola on 12/3/15.
+//  Created by Raghav Mangrola on 11/10/15.
 //  Copyright © 2015 Raghav Mangrola. All rights reserved.
 //
 
