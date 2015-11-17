@@ -15,6 +15,7 @@ class SearchViewController: UIViewController {
   var isLoading = false
   var dataTask: NSURLSessionDataTask?
   var observer: AnyObject!
+  var landscapeViewController: LandscapeViewController?
   
   @IBOutlet weak var searchBar: UISearchBar!
   @IBOutlet weak var tableView: UITableView!
@@ -29,7 +30,7 @@ class SearchViewController: UIViewController {
     static let nothingFoundCell = "NothingFoundCell"
     static let loadingCell = "LoadingCell"
   }
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
@@ -42,9 +43,9 @@ class SearchViewController: UIViewController {
     tableView.contentInset = UIEdgeInsets(top: 108, left: 0, bottom: 0, right: 0)
     tableView.rowHeight = 80
     searchBar.becomeFirstResponder()
-//    listenForContentSizeCategoryNotifications()
+    //    listenForContentSizeCategoryNotifications()
   }
-
+  
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
@@ -62,10 +63,10 @@ class SearchViewController: UIViewController {
   func urlWithSearchText(searchText: String, category: Int) -> NSURL {
     let entityName: String
     switch category {
-      case 1: entityName = "musicTrack"
-      case 2: entityName = "software"
-      case 3: entityName = "ebook"
-      default: entityName = ""
+    case 1: entityName = "musicTrack"
+    case 2: entityName = "software"
+    case 3: entityName = "ebook"
+    default: entityName = ""
     }
     
     let escapedSearchText = searchText.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
@@ -83,16 +84,55 @@ class SearchViewController: UIViewController {
     presentViewController(alert, animated: true, completion: nil)
   }
   
-//  func listenForContentSizeCategoryNotifications() {
-//    observer = NSNotificationCenter.defaultCenter().addObserverForName(UIContentSizeCategoryDidChangeNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { _ in
-//    print("Is this working?")
-//    self.tableView.reloadData()
-//    })
-//  }
-//  
-//  deinit {
-//    NSNotificationCenter.defaultCenter().removeObserver(observer)
-//  }
+  
+  override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    super.willTransitionToTraitCollection(newCollection, withTransitionCoordinator: coordinator)
+    
+    switch newCollection.verticalSizeClass {
+    case .Compact:
+      showLandscapeViewWithCoordinator(coordinator)
+    case .Regular, .Unspecified:
+      hideLandscapeViewWithCoordinator(coordinator)
+    }
+  }
+  
+  func showLandscapeViewWithCoordinator(coordinator: UIViewControllerTransitionCoordinator) {
+    precondition(landscapeViewController == nil)
+    
+    landscapeViewController = storyboard!.instantiateViewControllerWithIdentifier("LandscapeViewController") as? LandscapeViewController
+    
+    if let controller = landscapeViewController {
+      controller.view.frame = view.bounds
+      controller.view.alpha = 0
+      
+      view.addSubview(controller.view)
+      addChildViewController(controller)
+      
+      coordinator.animateAlongsideTransition({_ in
+        controller.view.alpha = 1
+        }, completion: { _ in
+          controller.didMoveToParentViewController(self)
+      })
+    }
+  }
+  
+  func hideLandscapeViewWithCoordinator(coordinator: UIViewControllerTransitionCoordinator){
+    if let controller = landscapeViewController {
+      controller.willMoveToParentViewController(nil)
+      
+      coordinator.animateAlongsideTransition({_ in
+        controller.view.alpha = 0
+        }, completion: { _ in
+          controller.view.removeFromSuperview()
+          controller.removeFromParentViewController()
+      })
+//      controller.view.removeFromSuperview()
+//      controller.removeFromParentViewController()
+      landscapeViewController = nil
+    }
+  }
+  
+  
 }
 
 extension SearchViewController: UISearchBarDelegate {

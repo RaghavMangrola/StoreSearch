@@ -85,6 +85,38 @@
             </objects>
             <point key="canvasLocation" x="291" y="395"/>
         </scene>
+        <!--Landscape View Controller-->
+        <scene sceneID="hdv-bt-Pbh">
+            <objects>
+                <viewController storyboardIdentifier="LandscapeViewController" id="Drh-o8-dnL" customClass="LandscapeViewController" customModule="StoreSearch" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3g8-Es-QBU"/>
+                        <viewControllerLayoutGuide type="bottom" id="LmT-ta-tIZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pXd-bc-ucr">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We're in Landscape" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JDd-O2-mOL">
+                                <rect key="frame" x="225" y="290" width="150" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="JDd-O2-mOL" firstAttribute="centerY" secondItem="pXd-bc-ucr" secondAttribute="centerY" id="2M6-8w-Omz"/>
+                            <constraint firstItem="JDd-O2-mOL" firstAttribute="centerX" secondItem="pXd-bc-ucr" secondAttribute="centerX" id="Znt-1T-Him"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UnH-eS-tPJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="291" y="1092"/>
+        </scene>
         <!--Detail View Controller-->
         <scene sceneID="YM4-73-hoA">
             <objects>
