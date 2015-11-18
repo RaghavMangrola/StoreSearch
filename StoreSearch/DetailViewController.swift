@@ -13,6 +13,13 @@ class DetailViewController: UIViewController {
   var searchResult: SearchResult!
   var downloadTask: NSURLSessionDownloadTask!
   
+  enum AnimationStyle {
+    case Slide
+    case Fade
+  }
+  
+  var dismissAnimationStyle = AnimationStyle.Fade
+  
   @IBOutlet weak var popupView: UIView!
   @IBOutlet weak var artworkImageView: UIImageView!
   @IBOutlet weak var nameLabel: UILabel!
@@ -22,6 +29,7 @@ class DetailViewController: UIViewController {
   @IBOutlet weak var priceButton: UIButton!
   
   @IBAction func close() {
+    dismissAnimationStyle = .Slide
     dismissViewControllerAnimated(true, completion: nil)
   }
   
@@ -98,27 +106,30 @@ class DetailViewController: UIViewController {
     print("deinit \(self)")
     downloadTask?.cancel()
   }
-  
-  func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    return BounceAnimationController()
-  }
 }
 
 extension DetailViewController: UIViewControllerTransitioningDelegate {
   func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
-    
-    return DimmingPresentationController(
-      presentedViewController: presented,
-      presentingViewController: presenting)
+    return DimmingPresentationController(presentedViewController: presented, presentingViewController: presenting)
+  }
+  
+  func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    return BounceAnimationController()
   }
   
   func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    return SlideOutAnimationController()
+    switch dismissAnimationStyle {
+    case .Slide:
+      return SlideOutAnimationController()
+    case .Fade:
+      return FadeOutAnimationController()
+    }
   }
 }
 
+
 extension DetailViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
     return (touch.view === self.view)
-  }
+        }
 }
