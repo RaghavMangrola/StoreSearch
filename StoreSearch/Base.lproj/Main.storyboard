@@ -97,13 +97,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kpZ-Pw-Sim">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kpZ-Pw-Sim">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
+                                <connections>
+                                    <outlet property="delegate" destination="Drh-o8-dnL" id="Mc4-Za-svq"/>
+                                </connections>
                             </scrollView>
                             <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="VfD-h0-a2L">
                                 <rect key="frame" x="280" y="282" width="39" height="37"/>
                                 <animations/>
+                                <connections>
+                                    <action selector="pageChanged:" destination="Drh-o8-dnL" eventType="valueChanged" id="6Yy-oD-4NS"/>
+                                </connections>
                             </pageControl>
                         </subviews>
                         <animations/>
