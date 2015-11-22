@@ -12,6 +12,7 @@ class LandscapeViewController: UIViewController {
   
   var searchResults = [SearchResult]()
   private var firstTime = true
+  private var downloadTasks = [NSURLSessionDownloadTask]()
   
   @IBOutlet weak var scrollView: UIScrollView!
   @IBOutlet weak var pageControl: UIPageControl!
@@ -108,7 +109,7 @@ class LandscapeViewController: UIViewController {
       
       scrollView.addSubview(button)
       
-//      downloadImageForSearchResult(searchResult, andPlaceOnButton: button)
+      downloadImageForSearchResult(searchResult, andPlaceOnButton: button)
       
       ++row
       if row == rowsPerPage {
@@ -131,8 +132,31 @@ class LandscapeViewController: UIViewController {
     pageControl.currentPage = 0
   }
   
+  private func downloadImageForSearchResult(searchResult: SearchResult, andPlaceOnButton button: UIButton) {
+    if let url = NSURL(string: searchResult.artworkURL60) {
+      let session = NSURLSession.sharedSession()
+      let downloadTask = session.downloadTaskWithURL(url) {
+        [weak button] url, response, error in
+        
+        if error == nil, let url = url, data = NSData(contentsOfURL: url),
+          image = UIImage(data: data) {
+            dispatch_async(dispatch_get_main_queue()) {
+              if let button = button {
+                button.setImage(image, forState: .Normal)
+              }
+            }
+        }
+      }
+      downloadTask.resume()
+      downloadTasks.append(downloadTask)
+    }
+  }
+  
   deinit {
     print("deinit \(self)")
+    for task in downloadTasks {
+      task.cancel()
+    }
   }
 }
 
