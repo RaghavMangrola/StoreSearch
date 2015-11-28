@@ -108,7 +108,7 @@ class LandscapeViewController: UIViewController {
     var row = 0
     var column = 0
     var x = marginX
-    for searchResult in searchResults {
+    for (index, searchResult) in searchResults.enumerate() {
       let button = UIButton(type: .Custom)
       button.setBackgroundImage(UIImage(named: "LandscapeButton"), forState: .Normal)
       
@@ -116,6 +116,8 @@ class LandscapeViewController: UIViewController {
         x: x + paddingHorz,
         y: marginY + CGFloat(row)*itemHeight + paddingVert,
         width: buttonWidth, height: buttonHeight)
+      button.tag = 2000 + index
+      button.addTarget(self, action: ("buttonPressed"), forControlEvents: .TouchUpInside)
       
       scrollView.addSubview(button)
       
@@ -201,6 +203,20 @@ class LandscapeViewController: UIViewController {
     label.frame = rect
     label.center = CGPoint(x: CGRectGetMidX(scrollView.bounds), y: CGRectGetMidY(scrollView.bounds))
     view.addSubview(label)
+  }
+  
+  func buttonPressed(sender: UIButton) {
+    performSegueWithIdentifier("ShowDetail", sender: sender)
+  }
+  
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    if segue.identifier == "ShowDetail" {
+      if case .Results(let list) = search.state {
+        let detailViewController = segue.destinationViewController as! DetailViewController
+        let searchResult = list[sender!.tag - 2000]
+        detailViewController.searchResult = searchResult
+      }
+    }
   }
   
   deinit {

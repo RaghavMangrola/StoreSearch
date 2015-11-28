@@ -112,6 +112,10 @@ class SearchViewController: UIViewController {
       controller.removeFromParentViewController()
       landscapeViewController = nil
     }
+    
+    if self.presentedViewController != nil {
+      self.dismissViewControllerAnimated(true, completion: nil)
+    }
   }
   
   
