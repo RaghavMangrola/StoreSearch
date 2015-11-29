@@ -9,48 +9,46 @@
 import UIKit
 
 class LandscapeViewController: UIViewController {
-  
-  var search: Search!
-  private var firstTime = true
-  private var downloadTasks = [NSURLSessionDownloadTask]()
-  
   @IBOutlet weak var scrollView: UIScrollView!
   @IBOutlet weak var pageControl: UIPageControl!
   
-  @IBAction func pageChanged(sender: UIPageControl) {
-    UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: {
-      self.scrollView.contentOffset = CGPoint(x: self.scrollView.bounds.size.width * CGFloat(sender.currentPage),y: 0)
-      },
-      completion: nil)
+  var search: Search!
+  
+  private var firstTime = true
+  private var downloadTasks = [NSURLSessionDownloadTask]()
+  
+  deinit {
+    print("deinit \(self)")
+    for task in downloadTasks {
+      task.cancel()
+    }
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     
     view.removeConstraints(view.constraints)
     view.translatesAutoresizingMaskIntoConstraints = true
     
     pageControl.removeConstraints(pageControl.constraints)
     pageControl.translatesAutoresizingMaskIntoConstraints = true
-    pageControl.numberOfPages = 0
     
     scrollView.removeConstraints(scrollView.constraints)
     scrollView.translatesAutoresizingMaskIntoConstraints = true
+    
     scrollView.backgroundColor = UIColor(patternImage: UIImage(named: "LandscapeBackground")!)
     
-
-  }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+    pageControl.numberOfPages = 0
   }
   
   override func viewWillLayoutSubviews() {
     scrollView.frame = view.bounds
     
-    pageControl.frame = CGRect(x: 0, y: view.frame.size.height - pageControl.frame.size.height, width: view.frame.size.width, height: pageControl.frame.size.height)
+    pageControl.frame = CGRect(
+      x: 0,
+      y: view.frame.size.height - pageControl.frame.size.height,
+      width: view.frame.size.width,
+      height: pageControl.frame.size.height)
     
     if firstTime {
       firstTime = false
@@ -65,6 +63,48 @@ class LandscapeViewController: UIViewController {
       case .Results(let list):
         tileButtons(list)
       }
+    }
+  }
+  
+  private func showSpinner() {
+    let spinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+    spinner.center = CGPoint(x: CGRectGetMidX(scrollView.bounds) + 0.5, y: CGRectGetMidY(scrollView.bounds) + 0.5)
+    spinner.tag = 1000
+    view.addSubview(spinner)
+    spinner.startAnimating()
+  }
+  
+  private func hideSpinner() {
+    view.viewWithTag(1000)?.removeFromSuperview()
+  }
+  
+  private func showNothingFoundLabel() {
+    let label = UILabel(frame: CGRect.zero)
+    label.text = "Nothing Found"
+    label.textColor = UIColor.whiteColor()
+    label.backgroundColor = UIColor.clearColor()
+    
+    label.sizeToFit()
+    
+    var rect = label.frame
+    rect.size.width = ceil(rect.size.width/2) * 2    // make even
+    rect.size.height = ceil(rect.size.height/2) * 2  // make even
+    label.frame = rect
+    
+    label.center = CGPoint(x: CGRectGetMidX(scrollView.bounds), y: CGRectGetMidY(scrollView.bounds))
+    view.addSubview(label)
+  }
+  
+  func searchResultsReceived() {
+    hideSpinner()
+    
+    switch search.state {
+    case .NotSearchedYet, .Loading:
+      break
+    case .NoResults:
+      showNothingFoundLabel()
+    case .Results(let list):
+      tileButtons(list)
     }
   }
   
@@ -111,13 +151,13 @@ class LandscapeViewController: UIViewController {
     for (index, searchResult) in searchResults.enumerate() {
       let button = UIButton(type: .Custom)
       button.setBackgroundImage(UIImage(named: "LandscapeButton"), forState: .Normal)
+      button.tag = 2000 + index
+      button.addTarget(self, action: Selector("buttonPressed:"), forControlEvents: .TouchUpInside)
       
       button.frame = CGRect(
         x: x + paddingHorz,
         y: marginY + CGFloat(row)*itemHeight + paddingVert,
         width: buttonWidth, height: buttonHeight)
-      button.tag = 2000 + index
-      button.addTarget(self, action: ("buttonPressed"), forControlEvents: .TouchUpInside)
       
       scrollView.addSubview(button)
       
@@ -144,6 +184,27 @@ class LandscapeViewController: UIViewController {
     pageControl.currentPage = 0
   }
   
+  func buttonPressed(sender: UIButton) {
+    performSegueWithIdentifier("ShowDetail", sender: sender)
+  }
+  
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    if segue.identifier == "ShowDetail" {
+      if case .Results(let list) = search.state {
+        let detailViewController = segue.destinationViewController as! DetailViewController
+        let searchResult = list[sender!.tag - 2000]
+        detailViewController.searchResult = searchResult
+      }
+    }
+  }
+  
+  @IBAction func pageChanged(sender: UIPageControl) {
+    UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: {
+      self.scrollView.contentOffset = CGPoint(x: self.scrollView.bounds.size.width * CGFloat(sender.currentPage),y: 0)
+      },
+      completion: nil)
+  }
+  
   private func downloadImageForSearchResult(searchResult: SearchResult, andPlaceOnButton button: UIButton) {
     if let url = NSURL(string: searchResult.artworkURL60) {
       let session = NSURLSession.sharedSession()
@@ -161,68 +222,6 @@ class LandscapeViewController: UIViewController {
       }
       downloadTask.resume()
       downloadTasks.append(downloadTask)
-    }
-  }
-  
-  private func showSpinner() {
-    let spinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-    spinner.center = CGPoint(x: CGRectGetMidX(scrollView.bounds) + 0.5, y: CGRectGetMidY(scrollView.bounds) + 0.5)
-    spinner.tag = 1000
-    view.addSubview(spinner)
-    spinner.startAnimating()
-  }
-  
-  private func hideSpinner() {
-    view.viewWithTag(1000)?.removeFromSuperview()
-  }
-  
-  func searchResultsReceived() {
-    hideSpinner()
-    
-    switch search.state {
-    case .NotSearchedYet, .Loading:
-      break
-    case .NoResults:
-      showNothingFoundLabel()
-    case .Results(let list):
-      tileButtons(list)
-    }
-  }
-  
-  private func showNothingFoundLabel() {
-    let label = UILabel(frame: CGRect.zero)
-    label.text = "Nothing Found"
-    label.textColor = UIColor.whiteColor()
-    label.backgroundColor = UIColor.clearColor()
-    
-    label.sizeToFit()
-    
-    var rect = label.frame
-    rect.size.width = ceil(rect.size.width/2) * 2
-    rect.size.height = ceil(rect.size.height/2) * 2
-    label.frame = rect
-    label.center = CGPoint(x: CGRectGetMidX(scrollView.bounds), y: CGRectGetMidY(scrollView.bounds))
-    view.addSubview(label)
-  }
-  
-  func buttonPressed(sender: UIButton) {
-    performSegueWithIdentifier("ShowDetail", sender: sender)
-  }
-  
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    if segue.identifier == "ShowDetail" {
-      if case .Results(let list) = search.state {
-        let detailViewController = segue.destinationViewController as! DetailViewController
-        let searchResult = list[sender!.tag - 2000]
-        detailViewController.searchResult = searchResult
-      }
-    }
-  }
-  
-  deinit {
-    print("deinit \(self)")
-    for task in downloadTasks {
-      task.cancel()
     }
   }
 }
