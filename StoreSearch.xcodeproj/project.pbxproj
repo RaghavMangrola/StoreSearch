@@ -10,6 +10,7 @@
 		A03374A11BF703C3008C3F3A /* BounceAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03374A01BF703C3008C3F3A /* BounceAnimationController.swift */; };
 		A03374A31C155F9F008C3F3A /* SlideOutAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03374A21C155F9F008C3F3A /* SlideOutAnimationController.swift */; };
 		A047957F1C116C4F006FF9BF /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A047957E1C116C4F006FF9BF /* GradientView.swift */; };
+		A04D83421C02C9AC00A45B92 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04D83411C02C9AC00A45B92 /* Search.swift */; };
 		A08529081BCE048800956E4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08529071BCE048800956E4D /* AppDelegate.swift */; };
 		A085290A1BCE048800956E4D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08529091BCE048800956E4D /* SearchViewController.swift */; };
 		A085290D1BCE048800956E4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A085290B1BCE048800956E4D /* Main.storyboard */; };
@@ -30,6 +31,7 @@
 		A03374A01BF703C3008C3F3A /* BounceAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BounceAnimationController.swift; sourceTree = "<group>"; };
 		A03374A21C155F9F008C3F3A /* SlideOutAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideOutAnimationController.swift; sourceTree = "<group>"; };
 		A047957E1C116C4F006FF9BF /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		A04D83411C02C9AC00A45B92 /* Search.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		A08529041BCE048800956E4D /* StoreSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A08529071BCE048800956E4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A08529091BCE048800956E4D /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				A03374A01BF703C3008C3F3A /* BounceAnimationController.swift */,
 				A03374A21C155F9F008C3F3A /* SlideOutAnimationController.swift */,
 				A0B9EEBC1C169CA700509375 /* FadeOutAnimationController.swift */,
+				A04D83411C02C9AC00A45B92 /* Search.swift */,
 				A085290E1BCE048800956E4D /* Assets.xcassets */,
 				A085290B1BCE048800956E4D /* Main.storyboard */,
 				A0F47C021BF1639E0012705B /* SearchResultCell.xib */,
@@ -172,6 +175,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A04D83421C02C9AC00A45B92 /* Search.swift in Sources */,
 				A085290A1BCE048800956E4D /* SearchViewController.swift in Sources */,
 				A0DA933F1C05630B00EC5C83 /* DimmingPresentationController.swift in Sources */,
 				A0B9EEBD1C169CA700509375 /* FadeOutAnimationController.swift in Sources */,
