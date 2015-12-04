@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Mhe-Xr-XYb">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -78,7 +78,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="153" y="395"/>
+            <point key="canvasLocation" x="41" y="613"/>
         </scene>
         <!--Landscape View Controller-->
         <scene sceneID="hdv-bt-Pbh">
@@ -115,7 +115,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UnH-eS-tPJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="153" y="1086"/>
+            <point key="canvasLocation" x="-703" y="1078"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="YM4-73-hoA">
@@ -240,6 +240,7 @@
                             <constraint firstItem="39D-DK-7Ib" firstAttribute="centerX" secondItem="I2k-Mv-XAN" secondAttribute="centerX" id="kBa-u6-6gO"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="6Lu-oy-PDu"/>
                     <connections>
                         <outlet property="artistNameLabel" destination="s8O-eM-DBm" id="lyV-hH-p3s"/>
                         <outlet property="artworkImageView" destination="0s1-o6-BpL" id="GMR-n8-Xcy"/>
@@ -252,7 +253,36 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SVI-MN-OyO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="974" y="677"/>
+            <point key="canvasLocation" x="1034" y="1078"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Pa5-3J-vRu">
+            <objects>
+                <navigationController id="yOI-M7-JbL" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="QIu-Cn-AI8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="GrD-0n-XsM" kind="relationship" relationship="rootViewController" id="hC6-EC-1Wf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f3e-nQ-mNd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1016" y="-163"/>
+        </scene>
+        <!--Split View Controller-->
+        <scene sceneID="V1f-VI-DJf">
+            <objects>
+                <splitViewController id="Mhe-Xr-XYb" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="masterViewController" id="I77-fV-rEk"/>
+                        <segue destination="yOI-M7-JbL" kind="relationship" relationship="detailViewController" id="cZo-Oa-06A"/>
+                    </connections>
+                </splitViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dej-yO-J7V" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-642" y="-163"/>
         </scene>
     </scenes>
     <resources>
