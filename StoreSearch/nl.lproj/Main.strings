@@ -29,7 +29,7 @@
 /* Class = "UILabel"; text = "Name"; ObjectID = "tm9-fg-QMc"; */
 "tm9-fg-QMc.text" = "Name";
 
-/* Class = "UISearchBar"; placeholder = "App name, artist, song, ablum, e-book"; ObjectID = "wu9-ig-HaZ"; */
+/* Class = "UISearchBar"; placeholder = "App name, artist, song, album, e-book"; ObjectID = "wu9-ig-HaZ"; */
 "wu9-ig-HaZ.placeholder" = "Naam van artiest, nummer, album";
 
 /* Class = "UILabel"; text = "Type:"; ObjectID = "yvT-0z-Xr8"; */
