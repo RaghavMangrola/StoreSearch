@@ -149,6 +149,12 @@
                                             <constraint firstAttribute="height" constant="15" id="rhv-Aa-QPE"/>
                                         </constraints>
                                         <state key="normal" image="CloseButton"/>
+                                        <variation key="heightClass=compact-widthClass=regular">
+                                            <mask key="constraints">
+                                                <exclude reference="YcT-p7-aVb"/>
+                                                <exclude reference="rhv-Aa-QPE"/>
+                                            </mask>
+                                        </variation>
                                         <variation key="heightClass=regular-widthClass=regular">
                                             <mask key="constraints">
                                                 <exclude reference="YcT-p7-aVb"/>
@@ -269,6 +275,15 @@
                                         <exclude reference="fI6-zj-D4G"/>
                                     </mask>
                                 </variation>
+                                <variation key="heightClass=compact-widthClass=regular">
+                                    <mask key="subviews">
+                                        <exclude reference="cnK-WK-f2W"/>
+                                    </mask>
+                                    <mask key="constraints">
+                                        <exclude reference="E5a-MT-9mU"/>
+                                        <exclude reference="rvD-KC-T8M"/>
+                                    </mask>
+                                </variation>
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <mask key="subviews">
                                         <exclude reference="cnK-WK-f2W"/>
@@ -282,7 +297,9 @@
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="39D-DK-7Ib" firstAttribute="centerY" secondItem="I2k-Mv-XAN" secondAttribute="centerY" id="cdZ-2b-oUI"/>
+                            <constraint firstItem="39D-DK-7Ib" firstAttribute="centerY" secondItem="I2k-Mv-XAN" secondAttribute="centerY" id="cdZ-2b-oUI">
+                                <variation key="heightClass=compact-widthClass=regular" constant="20"/>
+                            </constraint>
                             <constraint firstItem="39D-DK-7Ib" firstAttribute="centerX" secondItem="I2k-Mv-XAN" secondAttribute="centerX" id="kBa-u6-6gO"/>
                         </constraints>
                     </view>
